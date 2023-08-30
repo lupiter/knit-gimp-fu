@@ -31,14 +31,13 @@
             (letrec ((pixloop (lambda (j max-j) 
                 (if (< j max-j) (
                   (let*  (
-                    (pixel (cadr (gimp-drawable-get-pixel inLayer j i)))
-                    (channels (car (gimp-drawable-get-pixel inLayer j i)))
+                    (pixel (car (gimp-image-pick-color inImage inLayer j i FALSE FALSE 0)))
                     (row-color (car (gimp-palette-entry-get-color palette color-idx)))
                     (dot (cons-array 2 'double))
                   )
                     (aset dot 0 j)
                     (aset dot 1 i)
-                    (if (= pixel row-color)
+                    (if (equal? pixel row-color)
                       (gimp-context-set-foreground fg-color)
                       (gimp-context-set-foreground bg-color)
                     )
